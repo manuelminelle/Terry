@@ -565,3 +565,12 @@ export const dayPlans: DayPlan[] = [
     ],
   },
 ];
+
+export function collectDayExercises(day: DayPlan): ExerciseDetail[] {
+  return day.sections.reduce<ExerciseDetail[]>((exercises, section) => {
+    section.exercises.forEach((exercise) => {
+      exercises.push(exercise);
+    });
+    return exercises;
+  }, []);
+}
