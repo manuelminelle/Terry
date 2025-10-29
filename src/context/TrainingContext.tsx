@@ -7,7 +7,7 @@ import {
   useMemo,
   useReducer,
 } from 'react';
-import { DayId, dayPlans } from '../data/trainingPlan';
+import { DayId, dayPlans, collectDayExercises } from '../data/trainingPlan';
 
 export interface ExerciseProgress {
   weight: string;
@@ -46,7 +46,7 @@ const defaultExerciseState: ExerciseProgress = {
 
 function buildDefaultState(): TrainingState {
   return dayPlans.reduce((acc, day) => {
-    const exercises = day.sections.flatMap((section) => section.exercises);
+    const exercises = collectDayExercises(day);
     acc[day.id] = exercises.reduce<Record<string, ExerciseProgress>>((map, exercise) => {
       map[exercise.id] = { ...defaultExerciseState };
       return map;
@@ -163,18 +163,17 @@ export function TrainingProvider({ children }: PropsWithChildren) {
 
   const getDayProgress = useCallback(
     (dayId: DayId) => {
-      const exercises = dayPlans
-        .find((day) => day.id === dayId)
-        ?.sections.flatMap((section) => section.exercises.map((exercise) => exercise.id));
+      const plan = dayPlans.find((day) => day.id === dayId);
+      const exercises = plan ? collectDayExercises(plan) : [];
       const dayState = state[dayId];
-      const total = exercises?.length ?? 0;
-      const completed = exercises?.reduce((count, exerciseId) => {
-        if (dayState?.[exerciseId]?.completed) {
+      const total = exercises.length;
+      const completed = exercises.reduce((count, exercise) => {
+        if (dayState?.[exercise.id]?.completed) {
           return count + 1;
         }
         return count;
       }, 0);
-      return { completed: completed ?? 0, total };
+      return { completed, total };
     },
     [state],
   );
