@@ -515,7 +515,7 @@ export const dayPlans: DayPlan[] = [
       {
         id: 'finisher-c',
         title: 'Circuito Finisher (10′)',
-        description: 'AMRAP 10′: EB snatch 12 + diamond push-up 8–10 + V sit-up 20″.',
+        description: 'AMRAP 10′: DB snatch 12 + diamond push-up 8–10 + V sit-up 20″.',
         exercises: [
           {
             id: 'c-finisher-snatch',
