@@ -519,7 +519,7 @@ export const dayPlans: DayPlan[] = [
         exercises: [
           {
             id: 'c-finisher-snatch',
-            name: 'EB Snatch',
+            name: 'DB Snatch',
             summary: '12 ripetizioni',
             description:
               'Con un kettlebell o manubrio leggero, esegui uno snatch alternato focalizzandoti su esplosività e controllo in chiusura.',
